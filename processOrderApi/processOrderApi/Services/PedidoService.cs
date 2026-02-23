@@ -1,5 +1,6 @@
-﻿using log4net.Core;
+﻿using processOrderApi.Helpers;
 using processOrderApi.Models;
+using processOrderApi.Interfaces;
 using processOrderApi.Repositories;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace processOrderApi.Services
                             }, tran);
 
                             tran.Rollback();
-                            _logger.LogError(ex, "Error al validar cliente con servicio externo");
+                            _logger.LogError("Error al validar cliente con servicio externo", ex);
                             return new OrderProcessingResult(503, "Servicio de validación no disponible");
                         }
 
@@ -133,7 +134,7 @@ namespace processOrderApi.Services
                             Usuario = request.Usuario
                         }, tran);
 
-                        _logger.LogError(ex, "Error crítico al procesar pedido");
+                        _logger.LogError("Error crítico al procesar pedido", ex);
                         throw new Exception("Error interno del sistema", ex);
                     }
                 }

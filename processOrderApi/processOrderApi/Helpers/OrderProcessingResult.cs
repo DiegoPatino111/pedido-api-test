@@ -12,11 +12,18 @@ namespace processOrderApi.Helpers
         public int StatusCode { get; }
         public string Message { get; }
 
+        // Constructor para éxito (con ID de pedido)
         public OrderProcessingResult(int pedidoId)
-            : this(pedidoId, 200, "Pedido registrado exitosamente") { }
+            : this(pedidoId, 200, $"Pedido {pedidoId} registrado exitosamente") { }
 
+        // Constructor para errores
         public OrderProcessingResult(int statusCode, string message)
+            : this(null, statusCode, message) { }
+
+        // Constructor privado que maneja todos los casos
+        private OrderProcessingResult(int? pedidoId, int statusCode, string message)
         {
+            PedidoId = pedidoId;
             StatusCode = statusCode;
             Message = message;
         }

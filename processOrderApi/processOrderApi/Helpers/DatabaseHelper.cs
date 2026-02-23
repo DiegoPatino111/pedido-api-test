@@ -10,7 +10,7 @@ namespace processOrderApi.Helpers
 {
     public class DatabaseHelper
     {
-        public IDbConnection ObtenerConexion()
+        public SqlConnection ObtenerConexion()
         {
             return new SqlConnection(
                 ConfigurationManager.ConnectionStrings["PedidoDB"].ConnectionString);

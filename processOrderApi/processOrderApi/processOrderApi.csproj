@@ -236,12 +236,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PedidosController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
-    <Compile Include="Enums\LogLevel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DatabaseHelper.cs" />
     <Compile Include="Helpers\OrderProcessingResult.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="Models\CreatePedidoRequest.cs" />
     <Compile Include="Models\LogAuditoria.cs" />
     <Compile Include="Models\PedidoCabecera.cs" />

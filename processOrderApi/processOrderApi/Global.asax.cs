@@ -1,3 +1,5 @@
+using log4net;
+using log4net.Config;
 using processOrderApi.Helpers;
 using processOrderApi.Repositories;
 using processOrderApi.Services;
@@ -20,6 +22,9 @@ namespace processOrderApi
     {
         protected void Application_Start()
         {
+            // Configura log4net
+            XmlConfigurator.Configure();
+
             // Configuración de HttpClient (Singleton)
             var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
 
@@ -31,6 +36,11 @@ namespace processOrderApi
             container.RegisterType<IExternalValidationService, ExternalValidationService>(
                 new InjectionConstructor(httpClient));
             container.RegisterType<DatabaseHelper>();
+
+            // Registrar ILogger
+            var log = LogManager.GetLogger(typeof(WebApiApplication));
+            container.RegisterInstance<Interfaces.ILogger>(
+                new Logging.Log4NetLogger(log));
 
             // Configuración de Web API
             GlobalConfiguration.Configuration.DependencyResolver =
