@@ -125,7 +125,7 @@ namespace processOrderApi.Services
                     }
                     catch (Exception ex)
                     {
-                        tran.Rollback();
+                        
                         await _logRepo.RegistrarEventoAsync(new LogAuditoria
                         {
                             Evento = "ERROR_GENERAL",
@@ -133,7 +133,7 @@ namespace processOrderApi.Services
                             Nivel = "ERROR",
                             Usuario = request.Usuario
                         }, tran);
-
+                        tran.Rollback();
                         _logger.LogError("Error crítico al procesar pedido", ex);
                         throw new Exception("Error interno del sistema", ex);
                     }

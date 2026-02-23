@@ -10,6 +10,10 @@ namespace processOrderApi.Repositories
 {
     public interface ILogRepository
     {
+        
+        Task RegistrarEventoAsync(LogAuditoria log);
+
+        
         Task RegistrarEventoAsync(LogAuditoria log, IDbTransaction transaction);
     }
 }
