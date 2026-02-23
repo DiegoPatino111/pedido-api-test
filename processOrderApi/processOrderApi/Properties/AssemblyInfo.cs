@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie los valores de estos atributos para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("processOrderApi")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("API REST para registro transaccional de pedidos con Dapper")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("processOrderApi")]

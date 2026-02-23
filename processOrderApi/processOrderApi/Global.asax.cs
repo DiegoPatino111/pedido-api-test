@@ -1,11 +1,18 @@
+using processOrderApi.Helpers;
+using processOrderApi.Repositories;
+using processOrderApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Unity;
+using Unity.Injection;
+using Unity.WebApi;
 
 namespace processOrderApi
 {
@@ -13,6 +20,22 @@ namespace processOrderApi
     {
         protected void Application_Start()
         {
+            // Configuración de HttpClient (Singleton)
+            var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
+
+            // Registro de dependencias
+            var container = new UnityContainer();
+            container.RegisterType<IPedidoService, PedidoService>();
+            container.RegisterType<IPedidoRepository, PedidoRepository>();
+            container.RegisterType<ILogRepository, LogRepository>();
+            container.RegisterType<IExternalValidationService, ExternalValidationService>(
+                new InjectionConstructor(httpClient));
+            container.RegisterType<DatabaseHelper>();
+
+            // Configuración de Web API
+            GlobalConfiguration.Configuration.DependencyResolver =
+                new UnityDependencyResolver(container);
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

@@ -1,0 +1,2 @@
+C:\Users\DiegoPatino\Documents\PruebaTecnicaDiegoPatino-Maresa\processOrderApi\processOrderApi\obj\Debug\processOrderApi.csproj.AssemblyReference.cache
+C:\Users\DiegoPatino\Documents\PruebaTecnicaDiegoPatino-Maresa\processOrderApi\processOrderApi\obj\Debug\processOrderApi.csproj.CoreCompileInputs.cache

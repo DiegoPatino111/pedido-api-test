@@ -1,0 +1,55 @@
+﻿IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'PedidoDB')
+BEGIN
+    CREATE DATABASE PedidoDB;
+END
+GO
+
+USE PedidoDB;
+GO
+
+IF OBJECT_ID('dbo.PedidoCabecera', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.PedidoCabecera (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        ClienteId INT NOT NULL,
+        Fecha DATETIME2(0) NOT NULL DEFAULT GETDATE(),
+        Total DECIMAL(18,2) NOT NULL,
+        Usuario NVARCHAR(100) NOT NULL,
+        Estado NVARCHAR(50) NOT NULL DEFAULT 'PROCESADO',
+        FechaCreacion DATETIME2(0) DEFAULT GETDATE(),
+        FechaActualizacion DATETIME2(0) NULL
+    );
+    CREATE NONCLUSTERED INDEX IX_PedidoCabecera_ClienteId ON dbo.PedidoCabecera(ClienteId);   
+END
+GO
+
+IF OBJECT_ID('dbo.PedidoDetalle', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.PedidoDetalle (
+        Id INT PRIMARY KEY IDENTITY(1,1),
+        PedidoId INT NOT NULL,
+        ProductoId INT NOT NULL,
+        Cantidad INT NOT NULL CONSTRAINT CK_PedidoDetalle_Cantidad CHECK (Cantidad > 0),
+        Precio DECIMAL(18,2) NOT NULL CONSTRAINT CK_PedidoDetalle_Precio CHECK (Precio >= 0),
+        Subtotal AS (Cantidad * Precio) PERSISTED,
+        FechaCreacion DATETIME2(0) DEFAULT GETDATE(),
+        CONSTRAINT FK_PedidoDetalle_PedidoCabecera FOREIGN KEY (PedidoId) REFERENCES dbo.PedidoCabecera(Id) ON DELETE CASCADE
+    );
+    CREATE NONCLUSTERED INDEX IX_PedidoDetalle_PedidoId ON dbo.PedidoDetalle(PedidoId);    
+END
+GO
+
+IF OBJECT_ID('dbo.LogAuditoria', 'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.LogAuditoria (
+        Id BIGINT PRIMARY KEY IDENTITY(1,1),
+        Fecha DATETIME2(0) NOT NULL DEFAULT GETDATE(),
+        Evento NVARCHAR(100) NOT NULL,
+        Descripcion NVARCHAR(MAX) NOT NULL,
+        Nivel NVARCHAR(20) NOT NULL DEFAULT 'INFO',
+        Usuario NVARCHAR(100) NULL,
+        RequestId UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID()
+    );
+    CREATE NONCLUSTERED INDEX IX_LogAuditoria_Fecha ON dbo.LogAuditoria(Fecha);    
+END
+GO
