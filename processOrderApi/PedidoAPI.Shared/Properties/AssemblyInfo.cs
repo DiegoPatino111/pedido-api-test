@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
 [assembly: AssemblyTitle("PedidoAPI.Shared")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Clases compartidas, DTOs y excepciones para PedidoAPI")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PedidoAPI.Shared")]
